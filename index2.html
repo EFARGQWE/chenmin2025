@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字阅读器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* 导航栏样式 */
+        .nav-bar {
+            position:fixed;
+            top: 0;
+            right: 0;
+            padding: 13px;
+            z-index: 1000;
+            background: rgba(249, 247, 247, 0);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link {
+            color: rgba(14, 154, 254, 0.8);
+            text-decoration: none;
+            margin-left: 23px;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            position: relative;
+            bottom: 8px;
+        }
+
+        .nav-link:hover {
+            color: #2c5282;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0eafea;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+
+
+        #main-container {
+            display: flex;
+            max-width: 1200px;
+            width: 90%;
+            margin: auto;
+            gap: 1rem;
+        }
+
+        #toc-container {
+            width: 20%;
+        }
+
+        #toc-toggle {
+            position: sticky;
+            padding: 0.75rem 1.5rem;
+            background-color: #3182ce;
+            color: #fff;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #toc-toggle:hover {
+            background-color: #2c5282;
+        }
+
+        #toc {
+            width: 100%;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            padding: 1rem;
+            position: sticky;
+            top: 1rem;
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
+            display: none;
+        }
+
+        #toc a {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #3182ce;
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        #toc a:hover {
+            background-color: #edf2f7;
+        }
+
+        #reader-container {
+            width: 80%;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #text-content {
+            line-height: 1.7;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            min-height: 300px;
+            width: 100%;
+        }
+
+        #button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background-color: #3182ce;
+            color: #fff;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            background-color: #2c5282;
+        }
+
+        .highlight {
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            padding: 0.25rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav-bar">
+        <a href="#home" class="nav-link active">首页</a>
+<a href="/index2.html" class="nav-link active">阅读</a>
+        <a href="#more" class="nav-link">更多</a>
+        <a href="#about" class="nav-link">关于</a>
+    </nav>
+
+
+
+    <div id="main-container">
+        <div id="toc-container">
+            <button id="toc-toggle"><i class="fa-solid fa-list"></i> 展开目录</button>
+            <div id="toc">
+                <a href="#section1">《红楼梦》简介</a>
+                <a href="#section2">贾宝玉</a>
+                <a href="#section3">林黛玉与薛宝钗</a>
+                <a href="#section4">王熙凤</a>
+                <a href="#section5">其他人物</a>
+                <a href="#section6">《红楼梦》的影响</a>
+                <a href="#section7">改编形式</a>
+<a href="#section8">改编99形式</a>
+
+            </div>
+        </div>
+        <div id="reader-container">
+            <div id="text-content">
+                <h2 id="section1">《红楼梦》简介</h2>
+                <p>《红楼梦》，中国古典四大名著之首，清代作家曹雪芹所著。小说以贾、史、王、薛四大家族的兴衰为背景，以贾宝玉与林黛玉、薛宝钗的爱情婚姻悲剧为主线，从多个角度描写了18世纪上半叶中国封建社会的生活百态。</p>
+                <h2 id="section2">贾宝玉</h2>
+                <p>书中众多性格鲜明的人物形象给读者留下了深刻的印象。贾宝玉衔玉而生，他厌恶科举考试，不喜读四书五经，却对诗词歌赋有着浓厚的兴趣。他尊重女性，认为“女儿是水做的骨肉，男人是泥做的骨肉”。</p>
+                <h2 id="section3">林黛玉与薛宝钗</h2>
+                <p>林黛玉敏感细腻、才情出众，她与贾宝玉真心相爱，却因封建礼教的束缚和家族的利益纷争，最终泪尽而逝。薛宝钗则端庄稳重、博学多才，是封建礼教下的完美淑女，但她的婚姻也未能给她带来真正的幸福。</p>
+                <h2 id="section4">王熙凤</h2>
+                <p>王熙凤精明能干、深得贾母和王夫人的信任，掌管着贾府的大小事务。她为人圆滑世故，心狠手辣，为了维护自己的地位和利益，不惜使用各种手段。</p>
+                <h2 id="section5">其他人物</h2>
+                <p>此外，书中还有众多其他人物，如李纨、探春、妙玉等，每个人都有自己独特的性格和命运。《红楼梦》通过对这些人物的描写，展现了封建社会的种种弊病和人性的复杂。</p>
+                <h2 id="section6">《红楼梦》的影响</h2>
+                <p>《红楼梦》不仅是一部文学巨著，也是中国封建社会的百科全书。它对后世文学产生了深远的影响，许多作家从它的创作手法、人物塑造和主题表达等方面汲取灵感。</p>
+                <h2 id="section7">改编形式</h2>
+                <p>随着时间的推移，《红楼梦》被改编成了多种艺术形式，如戏曲、电影、电视剧等，进一步扩大了它的影响力。人们通过不同的艺术形式欣赏《红楼梦》，感受它的魅力和价值。</p>
+
+
+<h2 id="section8">科技创新是国家繁荣昌盛的强大引擎。</h2>
+<p>古往今来，科技的每一次重大进步，都推动着国家实力的跃迁。在古代，中国的四大发明 —— 造纸术、印刷术、火药和指南针，极大地推动了世界文明的进程，彼时的中国，凭借科技优势屹立于世界民族之林。近代以降，西方凭借工业革命的科技成果，实现了生产力的飞跃，迅速崛起。而如今，我国在航天、芯片、生物医药等前沿科技领域持续发力，嫦娥六号在月球背面采样，拓展了人类对月球的认知边界，为未来的深空探索和资源利用奠定基础；类脑互补视觉芯片等成果，更是在人工智能等领域抢占先机，助力我国在全球科技竞争中掌握主动权。这些科技创新成果，不仅提升了我国的国际地位，更为经济发展注入了源源不断的动力，成为国家繁荣的坚实支撑。
+科技创新同样深刻改变着我们的日常生活。曾几何时，车马慢、书信远，如今，互联网和通信技术的飞速发展，让天涯变咫尺，即时通讯、视频通话让人们的沟通变得无比便捷；曾经，购物需要穿梭于大街小巷，如今，电子商务和移动支付的兴起，让人们足不出户就能购遍全球好物；在医疗领域，科技创新更是带来了生的希望，先进的医疗设备和精准的诊疗技术，让许多疑难杂症有了更有效的治疗方案。科技创新，让生活更加智能、便捷、高效，不断提升着人们的幸福感和获得感。
+然而，科技创新与探索之路并非坦途。它需要科研人员具备敢为人先的勇气、持之以恒的毅力和甘坐冷板凳的决心。嫦娥六号团队在面临月球背面复杂地形和通信难题时，没有退缩，而是通过无数次的试验和创新，攻克了一个又一个技术难关；科研人员在芯片研发过程中，面对国外技术封锁，潜心钻研，不断探索新的材料和制程工艺。同时，科技创新也离不开良好的科研生态和政策支持，国家对科研的持续投入、对知识产权的保护、对创新人才的培养和激励，都为科技创新提供了肥沃的土壤。
+作为新时代的青年，我们肩负着推动科技创新与探索的使命。我们要培养创新思维，敢于突破传统观念的束缚，在学习和实践中不断积累知识和经验，提升自己的创新能力。我们要积极投身到科技创新的浪潮中，无论是在科研一线，还是在其他行业领域，都要以创新的精神去解决问题、推动发展。我们要传承和发扬科研前辈们的精神，以科技创新之笔，为国家的发展和人类的进步绘就更加绚丽的画卷。
+“路漫漫其修远兮，吾将上下而求索。” 科技创新与探索是一场没有终点的马拉松。在这条道路上，我们要以坚定的信念、无畏的勇气和不懈的努力，不断攀登科技高峰，让科技创新的光芒照亮我们前行的每一步，为国家的繁荣、人类的福祉贡献我们的智慧和力量。</p>
+
+
+
+
+            </div>
+            <div id="button-container">
+                <button id="prev-button"><i class="fa-solid fa-arrow-left"></i> 上一页</button>
+                <button id="next-button">下一页 <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const textContent = document.getElementById('text-content');
+            const tocToggle = document.getElementById('toc-toggle');
+            const toc = document.getElementById('toc');
+
+            const paragraphsPerPage = 3;
+            let currentPage = 0;
+
+            function showPage(page) {
+                const paragraphs = textContent.querySelectorAll('p');
+                paragraphs.forEach((paragraph, index) => {
+                    if (index >= page * paragraphsPerPage && index < (page + 1) * paragraphsPerPage) {
+                        paragraph.style.display = 'block';
+                    } else {
+                        paragraph.style.display = 'none';
+                    }
+                });
+            }
+
+            prevButton.addEventListener('click', function () {
+                if (currentPage > 0) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+
+            nextButton.addEventListener('click', function () {
+                const paragraphs = textContent.querySelectorAll('p');
+                const totalPages = Math.ceil(paragraphs.length / paragraphsPerPage);
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    showPage(currentPage);
+                }
+            });
+
+            const tocLinks = document.querySelectorAll('#toc a');
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        // 移除之前的高亮
+                        const previousHighlights = document.querySelectorAll('.highlight');
+                        previousHighlights.forEach(highlight => {
+                            highlight.classList.remove('highlight');
+                        });
+                        // 高亮当前目标元素及其下一个段落（如果有）
+                        targetElement.classList.add('highlight');
+                        const nextElement = targetElement.nextElementSibling;
+                        if (nextElement && nextElement.tagName === 'P') {
+                            nextElement.classList.add('highlight');
+                        }
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            tocToggle.addEventListener('click', function () {
+                if (toc.style.display === 'none') {
+                    toc.style.display = 'block';
+                    tocToggle.innerHTML = '<i class="fa-solid fa-list"></i> 收起目录';
+                } else {
+                    toc.style.display = 'none';
+                    tocToggle.innerHTML = '<i class="fa-solid fa-list"></i> 展开目录';
+                }
+            });
+
+            showPage(currentPage);
+        });
+    </script>
+</body>
+
+</html>
+    
